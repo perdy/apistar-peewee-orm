@@ -4,7 +4,7 @@ import peewee
 import pytest
 
 from apistar import App, ASyncApp, Route, TestClient, http, types, validators
-from apistar_peewee import PeeweeDatabaseComponent, PeeweeTransactionHook
+from apistar_peewee_orm import PeeweeDatabaseComponent, PeeweeTransactionHook
 
 
 database_component = PeeweeDatabaseComponent(url="sqlite+pool://")

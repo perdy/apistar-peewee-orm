@@ -9,7 +9,7 @@ repository = "https://github.com/PeRDy/apistar-peewee-orm"
 keywords = ["apistar", "peewee", "orm"]
 
 [package]
-include = ["apistar_peewee/**/*.py"]
+include = ["apistar_peewee_orm/**/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.5"
@@ -23,3 +23,8 @@ pytest-cov = "^2.5"
 tox = "^3.0"
 clinner = "^1.9"
 ipython = "^6.4"
+
+[tool.poetry.extras]
+apsw = ["apsw"]
+mysql = ["mysqlclient"]
+postgresql = ["psycopg2-binary"]

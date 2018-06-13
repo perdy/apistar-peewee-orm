@@ -17,21 +17,23 @@ class PeeweeTransactionHook:
         self.begin(database)
 
     def on_response(self, response: http.Response, database: peewee.Database, exc: Exception):
-        if exc is None:
-            database.commit()
-            logger.debug("Commit")
-            self.end(database)
-        else:
-            database.rollback()
-            logger.debug("Rollback")
-            self.end(database)
+        if not database.is_closed():  # pragma: no cover
+            if exc is None:
+                database.commit()
+                logger.debug("Commit")
+                self.end(database)
+            else:
+                database.rollback()
+                logger.debug("Rollback")
+                self.end(database)
 
         return response
 
     def on_error(self, database: peewee.Database):
-        database.rollback()
-        logger.debug("Rollback")
-        self.end(database)
+        if not database.is_closed():  # pragma: no cover
+            database.rollback()
+            logger.debug("Rollback")
+            self.end(database)
 
     def begin(self, database: peewee.Database):
         """

@@ -2,19 +2,13 @@ from typing import List
 
 import peewee
 import pytest
-
 from apistar import App, ASyncApp, Route, TestClient, http, types, validators
-from apistar_peewee_orm import PeeweeDatabaseComponent, PeeweeTransactionHook
+
+from apistar_peewee_orm import Model, PeeweeDatabaseComponent, PeeweeTransactionHook
 
 
-database_component = PeeweeDatabaseComponent(url="sqlite+pool://")
-
-
-class PuppyModel(peewee.Model):
+class PuppyModel(Model):
     name = peewee.CharField()
-
-    class Meta:
-        database = database_component.database
 
 
 class PuppyType(types.Type):
@@ -34,6 +28,7 @@ def create_puppy(puppy: PuppyType, raise_exception: http.QueryParam) -> http.JSO
     return http.JSONResponse(PuppyType(model), status_code=201)
 
 
+database_component = PeeweeDatabaseComponent(url="sqlite+pool://")
 components = [database_component]
 event_hooks = [PeeweeTransactionHook]
 routes = [Route("/puppy/", "POST", create_puppy), Route("/puppy/", "GET", list_puppies)]
@@ -46,21 +41,19 @@ async_app = ASyncApp(
 )
 
 
-@pytest.fixture(params=[app, async_app])
-def client(request):
-    with database_component.database:
-        database_component.database.create_tables([PuppyModel])
-    yield TestClient(request.param)
-    with database_component.database:
-        database_component.database.drop_tables([PuppyModel])
-
-
-@pytest.fixture
-def puppy():
-    return {"name": "canna"}
-
-
 class TestCaseEndToEnd:
+
+    @pytest.fixture(params=[app, async_app])
+    def client(self, request):
+        with database_component.database:
+            database_component.database.create_tables([PuppyModel])
+        yield TestClient(request.param)
+        with database_component.database:
+            database_component.database.drop_tables([PuppyModel])
+
+    @pytest.fixture
+    def puppy(self):
+        return {"name": "canna"}
 
     def test_insert_and_select_success(self, client, puppy):
         # Successfully create a new record

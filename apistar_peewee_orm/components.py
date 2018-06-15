@@ -4,6 +4,8 @@ import peewee
 from apistar import Component
 from playhouse.db_url import connect
 
+from apistar_peewee_orm.database import _database
+
 logger = logging.getLogger(__name__)
 
 __all__ = ["PeeweeDatabaseComponent"]
@@ -19,6 +21,7 @@ class PeeweeDatabaseComponent(Component):
         :param kwargs: Connection args.
         """
         self.database = connect(url, **kwargs)
+        _database.initialize(self.database)
         logger.info("Peewee connection created")
         logger.debug("Engine connection to %s", url)
 

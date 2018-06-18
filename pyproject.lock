@@ -92,7 +92,7 @@ platform = "*"
 name = "clinner"
 version = "1.9.4"
 description = "Command Line Interface builder that helps creating an entry point for your application."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 platform = "*"
@@ -104,7 +104,7 @@ colorama = "*"
 name = "colorama"
 version = "0.3.9"
 description = "Cross-platform colored terminal text."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 platform = "UNKNOWN"
@@ -113,7 +113,7 @@ platform = "UNKNOWN"
 name = "colorlog"
 version = "3.1.4"
 description = "Log formatting with colors!"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 platform = "*"
@@ -249,6 +249,18 @@ optional = false
 python-versions = "*"
 platform = "*"
 
+[[package]]
+name = "peewee-moves"
+version = "1.7.3"
+description = "Simple and flexible migration manager for Peewee ORM."
+category = "main"
+optional = false
+python-versions = "*"
+platform = "*"
+
+[package.dependencies]
+peewee = ">=2.8.2"
+click = ">=2.0"
 [[package]]
 name = "pexpect"
 version = "4.6.0"
@@ -498,7 +510,7 @@ platform = "*"
 [metadata]
 python-versions = "^3.6"
 platform = "*"
-content-hash = "b510de871816dd73171c255906eec23cdd725e7a25f093edd8a9fe4f79d8414c"
+content-hash = "9ec07998066acf2bbe9b0e1abbfcad6717554fd074782457800fb884ac5e2e7a"
 
 [extras]
 apsw = []
@@ -530,6 +542,7 @@ markupsafe = [ "a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665
 more-itertools = [ "a18d870ef2ffca2b8463c0070ad17b5978056f403fb64e3f15fe62a52db21cc0", "6703844a52d3588f951883005efcf555e49566a48afd4db4e965d69b883980d3", "2b6b9893337bfd9166bee6a62c2b0c9fe7735dcf85948b387ec8cba30e85d8e8",]
 parso = [ "cdef26e8adc10d589f3ec4eb444bd0a29f3f1eb6d72a4292ab8afcb9d68976a6", "f0604a40b96e062b0fd99cf134cc2d5cdf66939d0902f8267d938b0d5b26707f",]
 peewee = [ "7bd76cf2f7fdda898ed5235774f6edd8104a712ecad9883ba91dfef8ad85d3e3",]
+peewee-moves = [ "542ef5c78c640aa10e1c6d6a8e96b891371876e756d42433e5312a72ac271572", "c091746c1a3c20283191e70c3254a8712fb20b799442cdca669c574218df47f4",]
 pexpect = [ "3fbd41d4caf27fa4a377bfd16fef87271099463e6fa73e92a52f92dfee5d425b", "2a8e88259839571d1251d278476f3eec5db26deb73a70be5ed5dc5435e418aba",]
 pickleshare = [ "c9a2541f25aeabc070f12f452e1f2a8eae2abd51e1cd19e8430402bdf4c1d8b5", "84a9257227dfdd6fe1b4be1319096c20eb85ff1e82c7932f36efccfe1b09737b",]
 pluggy = [ "d345c8fe681115900d6da8d048ba67c25df42973bda370783cd58826442dcd7c", "e160a7fcf25762bb60efc7e171d4497ff1d8d2d75a3d0df7a21b76821ecbf5c5", "7f8ae7f5bdf75671a718d2daf0a64b7885f74510bcd98b1a0bb420eb9a9d0cff",]

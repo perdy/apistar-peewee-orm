@@ -10,7 +10,9 @@
 Peewee integration for API Star.
 
 ## Features
-This library provides event_hooks to handle connections and commit/rollback behavior based on exceptions in your views.
+This library provides:
+ * Event hooks to handle **connections** and **commit/rollback** behavior based on exceptions in your views.
+ * **Migrations** support with a command-line interface to interact with them.
 
 ## Quick start
 Install API Star Peewee ORM:
@@ -94,4 +96,39 @@ event_hooks = [
 ]
 
 app = App(routes=routes, components=components, event_hooks=event_hooks)
+```
+
+## CLI Application
+
+An application will be installed along with this library to provide full support for migrations and some other features 
+of Peewee and API Star.
+
+```bash
+$ apistar-peewee-orm --help
+
+usage: orm [-h] [-s SETTINGS] [-q | -v] [--dry-run]
+           {status,upgrade,downgrade,delete,create} ... app
+
+positional arguments:
+  app                   API Star application path
+                        (<package>.<module>:<variable>)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s SETTINGS, --settings SETTINGS
+                        Module or object with Clinner settings in format
+                        "package.module[:Object]"
+  -q, --quiet           Quiet mode. No standard output other than executed
+                        application
+  -v, --verbose         Verbose level (This option is additive)
+  --dry-run             Dry run. Skip commands execution, useful to check
+                        which commands will be executed and execution order
+
+Commands:
+  {status,upgrade,downgrade,delete,create}
+    status              Database migrations and models status
+    upgrade             Database migrations upgrade
+    downgrade           Database migrations downgrade
+    delete              Delete a migration
+    create              Create a new migration
 ```

@@ -15,6 +15,8 @@ include = ["apistar_peewee_orm/**/*.py"]
 python = "^3.6"
 apistar = "^0.5.30"
 peewee = "^3.5"
+peewee-moves = "^1.7"
+clinner = "^1.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.6"
@@ -23,6 +25,9 @@ pytest-cov = "^2.5"
 tox = "^3.0"
 clinner = "^1.9"
 ipython = "^6.4"
+
+[tool.poetry.scripts]
+apistar-peewee-orm = "apistar_peewee_orm.__main__:main"
 
 [tool.poetry.extras]
 apsw = ["apsw"]

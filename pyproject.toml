@@ -15,8 +15,8 @@ include = ["apistar_peewee_orm/**/*.py"]
 python = "^3.6"
 apistar = "^0.5.30"
 peewee = "^3.5"
-peewee-moves = "^1.7"
 clinner = "^1.9"
+peewee-migrate = "^1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.6"

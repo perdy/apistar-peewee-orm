@@ -106,8 +106,8 @@ of Peewee and API Star.
 ```bash
 $ apistar-peewee-orm --help
 
-usage: orm [-h] [-s SETTINGS] [-q | -v] [--dry-run]
-           {status,upgrade,downgrade,delete,create} ... app
+usage: apistar-peewee-orm [-h] [-s SETTINGS] [-q | -v] [--dry-run]
+                          {status,upgrade,downgrade,merge,create} ... [app]
 
 positional arguments:
   app                   API Star application path
@@ -125,10 +125,12 @@ optional arguments:
                         which commands will be executed and execution order
 
 Commands:
-  {status,upgrade,downgrade,delete,create}
-    status              Database migrations and models status
-    upgrade             Database migrations upgrade
-    downgrade           Database migrations downgrade
-    delete              Delete a migration
-    create              Create a new migration
+  {status,upgrade,downgrade,merge,create}
+    status              Database migrations and models status.
+    upgrade             Run database migrations sequentially.
+    downgrade           Rollback database migrations sequentially.
+    merge               Merge all migrations into a single one.
+    create              Create a new migration. If a module is provided then
+                        the migration will be automatically generated,
+                        otherwise the migration will be empty.
 ```

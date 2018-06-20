@@ -8,21 +8,21 @@ import sys
 import typing
 
 import apistar
-import peewee_moves
+import peewee_migrate
 from clinner.command import Type as CommandType
 from clinner.command import command
+from clinner.exceptions import ImproperlyConfigured
 from clinner.run.main import Main as ClinnerMain
 
-from apistar_peewee_orm import PeeweeDatabaseComponent, Model
+from apistar_peewee_orm import Model, PeeweeDatabaseComponent
 
 logger = logging.getLogger("cli")
-peewee_moves.LOGGER = logger
+peewee_migrate.LOGGER = logger
 
 sys.path.insert(0, os.getcwd())
 
 
 class DatabaseManager:
-
     @classmethod
     def get_app(cls, path: str) -> typing.Union[apistar.App, apistar.ASyncApp]:
         """
@@ -52,13 +52,17 @@ class DatabaseManager:
         raise ValueError("No 'PeeweeDatabaseComponent' found in API Star application")
 
     @classmethod
-    def from_app(cls, path: str) -> peewee_moves.DatabaseManager:
-        return peewee_moves.DatabaseManager(cls.get_database_component(cls.get_app(path)).database)
+    def from_app(cls, path: str) -> peewee_migrate.Router:
+        return peewee_migrate.Router(cls.get_database_component(cls.get_app(path)).database)
 
 
-@command(command_type=CommandType.PYTHON, parser_opts={"help": "Database migrations and models status"})
+@command(command_type=CommandType.PYTHON, parser_opts={"help": "Database migrations and models status."})
 def status(*args, **kwargs):
-    DatabaseManager.from_app(kwargs["app"]).status()
+    manager = DatabaseManager.from_app(os.environ["APISTAR_APP"])
+
+    migrations = "\n".join([f"[x] {migration}" for migration in manager.done])
+    migrations += "\n".join([f"[ ] {migration}" for migration in manager.diff])
+
     if len(Model.register) == 0:
         models = "No models found."
     elif len(Model.register) == 1:
@@ -67,50 +71,64 @@ def status(*args, **kwargs):
         models = f"{len(Model.register)} models found:\n"
 
     models += "\n".join([f" - {model.__module__}.{model.__name__}" for model in Model.register])
-    logger.info(models)
+    logger.info(f"Migrations:\n{migrations}\nw\n{models}")
 
 
 @command(
     command_type=CommandType.PYTHON,
-    args=((("target",), {"help": "Target migration", "nargs": "?"}),),
-    parser_opts={"help": "Database migrations upgrade"},
+    args=(
+        (("target",), {"help": "Last migration to be applied", "nargs": "?"}),
+        (("--fake",), {"help": "Fake migrations"}),
+    ),
+    parser_opts={"help": "Run database migrations sequentially."},
 )
 def upgrade(*args, **kwargs):
-    DatabaseManager.from_app(kwargs["app"]).upgrade(kwargs["target"])
+    DatabaseManager.from_app(os.environ["APISTAR_APP"]).run(kwargs["target"], fake=kwargs["fake"])
 
 
 @command(
     command_type=CommandType.PYTHON,
-    args=((("target",), {"help": "Target migration", "nargs": "?"}),),
-    parser_opts={"help": "Database migrations downgrade"},
+    args=((("target",), {"help": "Last migration to be rollback", "nargs": "?"}),),
+    parser_opts={"help": "Rollback database migrations sequentially."},
 )
 def downgrade(*args, **kwargs):
-    DatabaseManager.from_app(kwargs["app"]).downgrade(kwargs["target"])
+    DatabaseManager.from_app(os.environ["APISTAR_APP"]).rollback(kwargs["target"])
 
 
 @command(
     command_type=CommandType.PYTHON,
-    args=((("migration",), {"help": "Migration number"}),),
-    parser_opts={"help": "Delete a migration"},
+    args=((("name",), {"help": "Result migration name", "nargs": "?"}),),
+    parser_opts={"help": "Merge all migrations into a single one."},
 )
-def delete(*args, **kwargs):
-    DatabaseManager.from_app(kwargs["app"]).delete(kwargs["migration"])
+def merge(*args, **kwargs):
+    DatabaseManager.from_app(os.environ["APISTAR_APP"]).merge(kwargs["name"])
 
 
 @command(
     command_type=CommandType.PYTHON,
-    args=((("model",), {"help": "Target model"}),),
-    parser_opts={"help": "Create a new migration"},
+    args=((("name",), {"help": "Migration name"}), (("module",), {"help": "Target module", "nargs": "?"})),
+    parser_opts={
+        "help": "Create a new migration. If a module is provided then the migration will be automatically generated, "
+        "otherwise the migration will be empty."
+    },
 )
 def create(*args, **kwargs):
-    DatabaseManager.from_app(kwargs["app"]).create(kwargs["model"])
+    DatabaseManager.from_app(os.environ["APISTAR_APP"]).create(kwargs["name"], auto=kwargs["module"])
 
 
 class Main(ClinnerMain):
-
     def add_arguments(self, parser: "argparse.ArgumentParser"):
         super(Main, self).add_arguments(parser)
-        parser.add_argument("app", help="API Star application path (<package>.<module>:<variable>)")
+        parser.add_argument("app", help="API Star application path (<package>.<module>:<variable>)", nargs="?")
+
+    def inject_app(self):
+        if self.args.app:
+            os.environ.setdefault("APISTAR_APP", self.args.app)
+
+        if "APISTAR_APP" not in os.environ:
+            raise ImproperlyConfigured(
+                "API Star application not specified, use APISTAR_APP environment variable or command parameter."
+            )
 
 
 def main():

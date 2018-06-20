@@ -62,6 +62,15 @@ python-versions = "*"
 platform = "UNKNOWN"
 
 [[package]]
+name = "cached-property"
+version = "1.4.3"
+description = "A decorator for caching properties in classes."
+category = "main"
+optional = false
+python-versions = "*"
+platform = "*"
+
+[[package]]
 name = "certifi"
 version = "2018.4.16"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -221,6 +230,18 @@ python-versions = "*"
 platform = "UNKNOWN"
 
 [[package]]
+name = "mock"
+version = "2.0.0"
+description = "Rolling backport of unittest.mock for all Pythons"
+category = "main"
+optional = false
+python-versions = "*"
+platform = "UNKNOWN"
+
+[package.dependencies]
+pbr = ">=0.11"
+six = ">=1.9"
+[[package]]
 name = "more-itertools"
 version = "4.2.0"
 description = "More routines for operating on iterables, beyond itertools"
@@ -241,6 +262,15 @@ python-versions = "*"
 platform = "any"
 
 [[package]]
+name = "pbr"
+version = "4.0.4"
+description = "Python Build Reasonableness"
+category = "main"
+optional = false
+python-versions = "*"
+platform = "*"
+
+[[package]]
 name = "peewee"
 version = "3.5.0"
 description = "a little orm"
@@ -250,17 +280,19 @@ python-versions = "*"
 platform = "*"
 
 [[package]]
-name = "peewee-moves"
-version = "1.7.3"
-description = "Simple and flexible migration manager for Peewee ORM."
+name = "peewee-migrate"
+version = "1.0.0"
+description = "Simple migration engine for Peewee \n"
 category = "main"
 optional = false
 python-versions = "*"
-platform = "*"
+platform = "Any"
 
 [package.dependencies]
-peewee = ">=2.8.2"
-click = ">=2.0"
+cached_property = ">=1.4.2"
+click = ">=6.7"
+mock = ">=2.0.0"
+peewee = ">=3.3.3"
 [[package]]
 name = "pexpect"
 version = "4.6.0"
@@ -430,7 +462,7 @@ platform = "UNKNOWN"
 name = "six"
 version = "1.11.0"
 description = "Python 2 and 3 compatibility utilities"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 platform = "*"
@@ -510,7 +542,7 @@ platform = "*"
 [metadata]
 python-versions = "^3.6"
 platform = "*"
-content-hash = "9ec07998066acf2bbe9b0e1abbfcad6717554fd074782457800fb884ac5e2e7a"
+content-hash = "28bbcc45315ca8f7c14e217e7c11b4ead28f96a1577d0709935596c8fd148e50"
 
 [extras]
 apsw = []
@@ -524,6 +556,7 @@ appnope = [ "5b26757dc6f79a3b7dc9fab95359328d5747fcb2409d331ea66d0272b90ab2a0", 
 atomicwrites = [ "a24da68318b08ac9c9c45029f4a10371ab5b20e4226738e150e6e7c571630ae6", "240831ea22da9ab882b551b31d4225591e5e447a68c5e188db5b89ca1d487585",]
 attrs = [ "4b90b09eeeb9b88c35bc642cbac057e45a5fd85367b985bd2809c62b7b939265", "e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b",]
 backcall = [ "38ecd85be2c1e78f77fd91700c76e14667dc21e2713b63876c0eb901196e01e4", "bbbf4b1e5cd2bdb08f915895b51081c041bac22394fdfcfdfbe9f14b77c08bf2",]
+cached-property = [ "630fdbf0f4ac7d371aa866016eba1c3ac43e9032246748d4994e67cb05f99bc4", "f1f9028757dc40b4cb0fd2234bd7b61a302d7b84c683cb8c2c529238a24b8938",]
 certifi = [ "9fa520c1bacfb634fa7af20a76bcbd3d5fb390481724c597da32c719a7dca4b0", "13e698f54293db9f89122b0581843a782ad0934a4fe0172d2a980ba77fc61bb7",]
 chardet = [ "fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691", "84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae",]
 click = [ "29f99fc6125fbc931b758dc053b3114e55c77a6e4c6c3a2674a2dc986016381d", "f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b",]
@@ -539,10 +572,12 @@ ipython-genutils = [ "72dd37233799e619666c9f639a9da83c34013a73e8bbc79a7a6348d93c
 jedi = [ "5861f6dc0c16e024cbb0044999f9cf8013b292c05f287df06d3d991a87a4eb89", "1972f694c6bc66a2fac8718299e2ab73011d653a6d8059790c3476d2353b99ad",]
 jinja2 = [ "74c935a1b8bb9a3947c50a54766a969d4846290e1e788ea44c1392163723c3bd", "f84be1bb0040caca4cea721fcbbbbd61f9be9464ca236387158b0feea01914a4",]
 markupsafe = [ "a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665",]
+mock = [ "5ce3c71c5545b472da17b72268978914d0252980348636840bd34a00b5cc96c1", "b158b6df76edd239b8208d481dc46b6afd45a846b7812ff0ce58971cf5bc8bba",]
 more-itertools = [ "a18d870ef2ffca2b8463c0070ad17b5978056f403fb64e3f15fe62a52db21cc0", "6703844a52d3588f951883005efcf555e49566a48afd4db4e965d69b883980d3", "2b6b9893337bfd9166bee6a62c2b0c9fe7735dcf85948b387ec8cba30e85d8e8",]
 parso = [ "cdef26e8adc10d589f3ec4eb444bd0a29f3f1eb6d72a4292ab8afcb9d68976a6", "f0604a40b96e062b0fd99cf134cc2d5cdf66939d0902f8267d938b0d5b26707f",]
+pbr = [ "3747c6f017f2dc099986c325239661948f9f5176f6880d9fdef164cb664cd665", "a9c27eb8f0e24e786e544b2dbaedb729c9d8546342b5a6818d8eda098ad4340d",]
 peewee = [ "7bd76cf2f7fdda898ed5235774f6edd8104a712ecad9883ba91dfef8ad85d3e3",]
-peewee-moves = [ "542ef5c78c640aa10e1c6d6a8e96b891371876e756d42433e5312a72ac271572", "c091746c1a3c20283191e70c3254a8712fb20b799442cdca669c574218df47f4",]
+peewee-migrate = [ "74cdc6218caf339d482b0fb32261f756d44bdc2a608cd15c839ae0f9ca6298a2", "a45ed31743cf7d54588a55764b82e3b46e79f44bdcac0c9e1f6885499b45d259",]
 pexpect = [ "3fbd41d4caf27fa4a377bfd16fef87271099463e6fa73e92a52f92dfee5d425b", "2a8e88259839571d1251d278476f3eec5db26deb73a70be5ed5dc5435e418aba",]
 pickleshare = [ "c9a2541f25aeabc070f12f452e1f2a8eae2abd51e1cd19e8430402bdf4c1d8b5", "84a9257227dfdd6fe1b4be1319096c20eb85ff1e82c7932f36efccfe1b09737b",]
 pluggy = [ "d345c8fe681115900d6da8d048ba67c25df42973bda370783cd58826442dcd7c", "e160a7fcf25762bb60efc7e171d4497ff1d8d2d75a3d0df7a21b76821ecbf5c5", "7f8ae7f5bdf75671a718d2daf0a64b7885f74510bcd98b1a0bb420eb9a9d0cff",]

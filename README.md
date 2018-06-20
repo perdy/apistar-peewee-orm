@@ -103,7 +103,7 @@ app = App(routes=routes, components=components, event_hooks=event_hooks)
 An application will be installed along with this library to provide full support for migrations and some other features 
 of Peewee and API Star.
 
-```bash
+```
 $ apistar-peewee-orm --help
 
 usage: apistar-peewee-orm [-h] [-s SETTINGS] [-q | -v] [--dry-run]

@@ -1,7 +1,7 @@
 import pytest
 from apistar import App
 
-from apistar_peewee_orm import PeeweeDatabaseComponent, Model
+from apistar_peewee_orm import Model, PeeweeDatabaseComponent
 from apistar_peewee_orm.manager import Manager
 from mock import Mock, call
 
@@ -45,30 +45,30 @@ class TestCaseManager:
         assert manager.app == app
 
     def test_upgrade(self, manager):
-        expected_calls = [call('foo', True)]
+        expected_calls = [call("foo", True)]
 
-        manager.upgrade('foo', True)
+        manager.upgrade("foo", True)
 
         assert manager.router.run.call_args_list == expected_calls
 
     def test_downgrade(self, manager):
-        expected_calls = [call('foo')]
+        expected_calls = [call("foo")]
 
-        manager.downgrade('foo')
+        manager.downgrade("foo")
 
         assert manager.router.rollback.call_args_list == expected_calls
 
     def test_merge(self, manager):
-        expected_calls = [call('foo')]
+        expected_calls = [call("foo")]
 
-        manager.merge('foo')
+        manager.merge("foo")
 
         assert manager.router.merge.call_args_list == expected_calls
 
     def test_create(self, manager):
-        expected_calls = [call('foo', auto='bar')]
+        expected_calls = [call("foo", auto="bar")]
 
-        manager.create('foo', 'bar')
+        manager.create("foo", "bar")
 
         assert manager.router.create.call_args_list == expected_calls
 

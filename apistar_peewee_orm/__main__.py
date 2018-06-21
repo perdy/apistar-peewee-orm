@@ -67,6 +67,16 @@ def create(*args, **kwargs):
     Manager(os.environ["APISTAR_APP"]).create(kwargs["name"], kwargs["module"])
 
 
+@command(command_type=CommandType.PYTHON, parser_opts={"help": "Create tables into database."})
+def create_tables(*args, **kwargs):
+    Manager(os.environ["APISTAR_APP"]).create_tables()
+
+
+@command(command_type=CommandType.PYTHON, parser_opts={"help": "Drop tables from database."})
+def drop_tables(*args, **kwargs):
+    Manager(os.environ["APISTAR_APP"]).drop_tables()
+
+
 class Main(ClinnerMain):
     def add_arguments(self, parser: "argparse.ArgumentParser"):
         super(Main, self).add_arguments(parser)

@@ -87,13 +87,26 @@ class Manager:
         """
         self.router.create(name, auto=module)
 
+    @property
     def models(self) -> typing.List[peewee.Model]:
         """
         Returns a list of registered models.
 
         :return: List of registered models.
         """
-        return Model.register  # noqa
+        return list(Model.register)  # noqa
+
+    def create_tables(self):
+        """
+        Create tables in database.
+        """
+        self.component.database.create_tables(self.models)
+
+    def drop_tables(self):
+        """
+        Drop tables from database.
+        """
+        self.component.database.drop_tables(self.models)
 
     def __repr__(self):
         migrations = "\n".join([f"[x] {migration}" for migration in self.router.done])

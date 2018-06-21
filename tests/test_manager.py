@@ -1,9 +1,9 @@
 import pytest
 from apistar import App
 
-from apistar_peewee_orm import PeeweeDatabaseComponent
+from apistar_peewee_orm import PeeweeDatabaseComponent, Model
 from apistar_peewee_orm.manager import Manager
-from mock import Mock, call, patch
+from mock import Mock, call
 
 app_mock = App(routes=[], components=[PeeweeDatabaseComponent(url="sqlite://")])
 
@@ -21,6 +21,7 @@ class TestCaseManager:
     def manager(self, app):
         manager = Manager(app)
         manager.router = Mock()
+        manager.component = Mock()
         return manager
 
     def test_init_app_path(self):
@@ -70,6 +71,20 @@ class TestCaseManager:
         manager.create('foo', 'bar')
 
         assert manager.router.create.call_args_list == expected_calls
+
+    def test_create_tables(self, manager):
+        expected_calls = [call(list(Model.register))]
+
+        manager.create_tables()
+
+        assert manager.component.database.create_tables.call_args_list == expected_calls
+
+    def test_drop_tables(self, manager):
+        expected_calls = [call(list(Model.register))]
+
+        manager.drop_tables()
+
+        assert manager.component.database.drop_tables.call_args_list == expected_calls
 
     def test_repr(self, manager):
         pass

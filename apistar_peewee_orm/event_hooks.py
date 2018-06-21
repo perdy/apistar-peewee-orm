@@ -9,7 +9,6 @@ __all__ = ["PeeweeTransactionHook"]
 
 
 class PeeweeTransactionHook:
-
     def __init__(self):
         self.transaction = None
 

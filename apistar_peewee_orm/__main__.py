@@ -1,77 +1,28 @@
 #!/usr/bin/env python3.6
 """Run script.
 """
-import importlib
 import logging
 import os
 import sys
-import typing
 
-import apistar
 import peewee_migrate
 from clinner.command import Type as CommandType
 from clinner.command import command
 from clinner.exceptions import ImproperlyConfigured
 from clinner.run.main import Main as ClinnerMain
 
-from apistar_peewee_orm import Model, PeeweeDatabaseComponent
+from apistar_peewee_orm.manager import Manager
 
 logger = logging.getLogger("cli")
-peewee_migrate.LOGGER = logger
+peewee_migrate.LOGGER = logger  # Redirect peewee_migrate logger to Clinner
 
 sys.path.insert(0, os.getcwd())
 
 
-class DatabaseManager:
-    @classmethod
-    def get_app(cls, path: str) -> typing.Union[apistar.App, apistar.ASyncApp]:
-        """
-        Get database manager from API Star app path.
-
-        :param path: API Star app path in format <package>.<module>:<variable>
-        :return: Database manager.
-        """
-        try:
-            try:
-                m, c = path.rsplit(":", 1)
-                module = importlib.import_module(m)
-                app = getattr(module, c)
-            except ValueError:
-                raise ImportError("Wrong path path, it should be: <package>.<module>:<variable>")
-        except ImportError:
-            raise ImportError("API Star path not found '{}'".format(path))
-
-        return app
-
-    @classmethod
-    def get_database_component(cls, app: typing.Union[apistar.App, apistar.ASyncApp]) -> PeeweeDatabaseComponent:
-        for component in app.injector.components:
-            if isinstance(component, PeeweeDatabaseComponent):
-                return component
-
-        raise ValueError("No 'PeeweeDatabaseComponent' found in API Star application")
-
-    @classmethod
-    def from_app(cls, path: str) -> peewee_migrate.Router:
-        return peewee_migrate.Router(cls.get_database_component(cls.get_app(path)).database)
-
-
 @command(command_type=CommandType.PYTHON, parser_opts={"help": "Database migrations and models status."})
 def status(*args, **kwargs):
-    manager = DatabaseManager.from_app(os.environ["APISTAR_APP"])
-
-    migrations = "\n".join([f"[x] {migration}" for migration in manager.done])
-    migrations += "\n".join([f"[ ] {migration}" for migration in manager.diff])
-
-    if len(Model.register) == 0:
-        models = "No models found."
-    elif len(Model.register) == 1:
-        models = f"{len(Model.register)} model found:\n"
-    else:
-        models = f"{len(Model.register)} models found:\n"
-
-    models += "\n".join([f" - {model.__module__}.{model.__name__}" for model in Model.register])
-    logger.info(f"Migrations:\n{migrations}\nw\n{models}")
+    manager = Manager(os.environ["APISTAR_APP"])
+    logger.info(repr(manager))
 
 
 @command(
@@ -83,7 +34,7 @@ def status(*args, **kwargs):
     parser_opts={"help": "Run database migrations sequentially."},
 )
 def upgrade(*args, **kwargs):
-    DatabaseManager.from_app(os.environ["APISTAR_APP"]).run(kwargs["target"], fake=kwargs["fake"])
+    Manager(os.environ["APISTAR_APP"]).upgrade(kwargs["target"], fake=kwargs["fake"])
 
 
 @command(
@@ -92,7 +43,7 @@ def upgrade(*args, **kwargs):
     parser_opts={"help": "Rollback database migrations sequentially."},
 )
 def downgrade(*args, **kwargs):
-    DatabaseManager.from_app(os.environ["APISTAR_APP"]).rollback(kwargs["target"])
+    Manager(os.environ["APISTAR_APP"]).downgrade(kwargs["target"])
 
 
 @command(
@@ -101,7 +52,7 @@ def downgrade(*args, **kwargs):
     parser_opts={"help": "Merge all migrations into a single one."},
 )
 def merge(*args, **kwargs):
-    DatabaseManager.from_app(os.environ["APISTAR_APP"]).merge(kwargs["name"])
+    Manager(os.environ["APISTAR_APP"]).merge(kwargs["name"])
 
 
 @command(
@@ -113,7 +64,7 @@ def merge(*args, **kwargs):
     },
 )
 def create(*args, **kwargs):
-    DatabaseManager.from_app(os.environ["APISTAR_APP"]).create(kwargs["name"], auto=kwargs["module"])
+    Manager(os.environ["APISTAR_APP"]).create(kwargs["name"], kwargs["module"])
 
 
 class Main(ClinnerMain):

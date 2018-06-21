@@ -42,7 +42,6 @@ async_app = ASyncApp(
 
 
 class TestCaseEndToEnd:
-
     @pytest.fixture(params=[app, async_app])
     def client(self, request):
         with database_component.database:

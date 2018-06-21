@@ -12,7 +12,6 @@ __all__ = ["PeeweeDatabaseComponent"]
 
 
 class PeeweeDatabaseComponent(Component):
-
     def __init__(self, url: str, **kwargs) -> None:
         """
         Configure a new database backend.

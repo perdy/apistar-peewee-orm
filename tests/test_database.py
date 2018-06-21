@@ -13,7 +13,6 @@ def model():
 
 
 class TestCaseRegisterModel:
-
     def test_model_registration(self, model):
         class PuppyModel(model):
             name = peewee.CharField()

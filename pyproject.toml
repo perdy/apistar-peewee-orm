@@ -15,7 +15,7 @@ include = ["apistar_peewee_orm/**/*.py"]
 python = "^3.6"
 apistar = "^0.5.30"
 peewee = "^3.5"
-clinner = "^1.9"
+clinner = "^1.10"
 peewee-migrate = "^1.0"
 
 [tool.poetry.dev-dependencies]
@@ -25,6 +25,9 @@ pytest-cov = "^2.5"
 tox = "^3.0"
 clinner = "^1.9"
 ipython = "^6.4"
+flake8 = "^3.5"
+isort = "^4.3"
+black = "^18.3-alpha.0"
 
 [tool.poetry.scripts]
 apistar-peewee-orm = "apistar_peewee_orm.__main__:main"
@@ -33,3 +36,15 @@ apistar-peewee-orm = "apistar_peewee_orm.__main__:main"
 apsw = ["apsw"]
 mysql = ["mysqlclient"]
 postgresql = ["psycopg2-binary"]
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.tox
+  | build
+  | dist
+)/
+'''

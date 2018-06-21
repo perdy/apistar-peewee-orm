@@ -1,4 +1,8 @@
 # Changes
+v0.3.0 - 2018-06-21
+ * Manager class for handling many operations over database.
+ * Create tables and drop tables commands.
+
 v0.2.1 - 2018-06-20
  * Migrations based on peewee-migrate.
  

@@ -1,9 +1,10 @@
+from unittest.mock import Mock, call
+
 import pytest
 from apistar import App
 
 from apistar_peewee_orm import Model, PeeweeDatabaseComponent
 from apistar_peewee_orm.manager import Manager
-from mock import Mock, call
 
 app_mock = App(routes=[], components=[PeeweeDatabaseComponent(url="sqlite://")])
 

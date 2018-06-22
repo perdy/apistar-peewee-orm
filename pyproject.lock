@@ -72,7 +72,7 @@ platform = "UNKNOWN"
 
 [[package]]
 name = "black"
-version = "18.6b3"
+version = "18.6b4"
 description = "The uncompromising code formatter."
 category = "dev"
 optional = false
@@ -80,10 +80,10 @@ python-versions = ">=3.6"
 platform = "*"
 
 [package.dependencies]
-click = ">=6.5"
-attrs = ">=17.4.0"
-appdirs = "*"
 toml = ">=0.9.4"
+appdirs = "*"
+attrs = ">=17.4.0"
+click = ">=6.5"
 [[package]]
 name = "cached-property"
 version = "1.4.3"
@@ -639,7 +639,7 @@ appnope = [ "5b26757dc6f79a3b7dc9fab95359328d5747fcb2409d331ea66d0272b90ab2a0", 
 atomicwrites = [ "a24da68318b08ac9c9c45029f4a10371ab5b20e4226738e150e6e7c571630ae6", "240831ea22da9ab882b551b31d4225591e5e447a68c5e188db5b89ca1d487585",]
 attrs = [ "4b90b09eeeb9b88c35bc642cbac057e45a5fd85367b985bd2809c62b7b939265", "e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b",]
 backcall = [ "38ecd85be2c1e78f77fd91700c76e14667dc21e2713b63876c0eb901196e01e4", "bbbf4b1e5cd2bdb08f915895b51081c041bac22394fdfcfdfbe9f14b77c08bf2",]
-black = [ "479cc8b3455a75b5b289276b5f47fd2bb412f2f369292989c12b891264758b5c", "fe3b7ac846f2a7c91d926782184826c57d2be283c57f0d6b37b85496eb5469ff",]
+black = [ "4b475bbd528acce094c503a3d2dbc2d05a4075f6d0ef7d9e7514518e14cc5191", "22158b89c1a6b4eb333a1e65e791a3f8b998cf3b11ae094adb2570f31f769a44",]
 cached-property = [ "630fdbf0f4ac7d371aa866016eba1c3ac43e9032246748d4994e67cb05f99bc4", "f1f9028757dc40b4cb0fd2234bd7b61a302d7b84c683cb8c2c529238a24b8938",]
 certifi = [ "9fa520c1bacfb634fa7af20a76bcbd3d5fb390481724c597da32c719a7dca4b0", "13e698f54293db9f89122b0581843a782ad0934a4fe0172d2a980ba77fc61bb7",]
 chardet = [ "fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691", "84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae",]

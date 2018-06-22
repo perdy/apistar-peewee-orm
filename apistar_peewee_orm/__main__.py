@@ -1,6 +1,3 @@
-#!/usr/bin/env python3.6
-"""Run script.
-"""
 import logging
 import os
 import sys

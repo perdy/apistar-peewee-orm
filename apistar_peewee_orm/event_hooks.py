@@ -18,11 +18,11 @@ class PeeweeTransactionHook:
     def on_response(self, response: http.Response, database: peewee.Database, exc: Exception):
         if not database.is_closed():  # pragma: no cover
             if exc is None:
-                database.commit()
+                self.transaction.commit()
                 logger.debug("Commit")
                 self.end(database)
             else:
-                database.rollback()
+                self.transaction.rollback()
                 logger.debug("Rollback")
                 self.end(database)
 
@@ -30,7 +30,7 @@ class PeeweeTransactionHook:
 
     def on_error(self, database: peewee.Database):
         if not database.is_closed():  # pragma: no cover
-            database.rollback()
+            self.transaction.rollback()
             logger.debug("Rollback")
             self.end(database)
 
@@ -41,8 +41,8 @@ class PeeweeTransactionHook:
         :param database: Database.
         """
         database.connect(reuse_if_open=True)
-        self.transaction = database.atomic()
-        self.transaction.__enter__()
+        self._atomic = database.atomic()
+        self.transaction = self._atomic.__enter__()
 
     def end(self, database: peewee.Database):
         """
@@ -50,6 +50,7 @@ class PeeweeTransactionHook:
 
         :param database: Database
         """
-        self.transaction.__exit__(None, None, None)
+        self._atomic.__exit__(None, None, None)
+        self._atomic = None
         self.transaction = None
         database.close()

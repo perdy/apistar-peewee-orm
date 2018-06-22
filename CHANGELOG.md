@@ -1,4 +1,7 @@
 # Changes
+v0.3.1 - 2018-06-22
+ * Minor improvement on transaction hook.
+
 v0.3.0 - 2018-06-21
  * Manager class for handling many operations over database.
  * Create tables and drop tables commands.

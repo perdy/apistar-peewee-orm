@@ -1,4 +1,7 @@
 # Changes
+v0.3.3 - 2018-06-22
+ * Improve CLI.
+
 v0.3.2 - 2018-06-22
  * Fix typo in manager representation method.
 

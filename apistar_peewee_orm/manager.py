@@ -109,8 +109,8 @@ class Manager:
         self.component.database.drop_tables(self.models)
 
     def __repr__(self):
-        migrations = "\n".join([f"[x] {migration}" for migration in self.router.done])
-        migrations += "\n".join([f"[ ] {migration}" for migration in self.router.diff])
+        migrations = "\n".join([f" [x] {migration}" for migration in self.router.done])
+        migrations += "\n".join([f" [ ] {migration}" for migration in self.router.diff])
 
         if len(Model.register) == 0:
             models = "No models found."

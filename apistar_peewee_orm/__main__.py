@@ -10,8 +10,12 @@ from clinner.run.main import Main as ClinnerMain
 
 from apistar_peewee_orm.manager import Manager
 
-logger = logging.getLogger("cli")
-peewee_migrate.LOGGER = logger  # Redirect peewee_migrate logger to Clinner
+logger = logging.getLogger("apistar_peewee_orm.cli")
+logger.addHandler(logging.StreamHandler())
+logger.propagate = False
+logger.setLevel(logging.INFO)
+
+peewee_migrate.LOGGER = logger  # Redirect peewee_migrate logger to apistar_peewee_orm
 
 sys.path.insert(0, os.getcwd())
 

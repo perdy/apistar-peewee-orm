@@ -120,4 +120,4 @@ class Manager:
             models = f"{len(Model.register)} models found:\n"
 
         models += "\n".join([f" - {model.__module__}.{model.__name__}" for model in Model.register])
-        return f"Migrations:\n{migrations}\nw\n{models}"
+        return f"Migrations\n----------\n{migrations}\n\nModels\n------\n{models}"

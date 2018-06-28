@@ -1,4 +1,7 @@
 # Changes
+v0.3.4 - 2018-06-28
+ * Extra dependencies for database connectors.
+
 v0.3.3 - 2018-06-22
  * Improve CLI.
 

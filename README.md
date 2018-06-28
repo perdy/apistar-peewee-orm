@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/PeRDy/apistar-peewee-orm/branch/master/graph/badge.svg)](https://codecov.io/gh/PeRDy/apistar-peewee-orm)
 [![PyPI version](https://badge.fury.io/py/apistar-peewee-orm.svg)](https://badge.fury.io/py/apistar-peewee-orm)
 
-* **Version:** 0.3.3
+* **Version:** 0.3.4
 * **Status:** Production/Stable
 * **Author:** José Antonio Perdiguero López
 

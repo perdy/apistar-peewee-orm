@@ -7,8 +7,6 @@ license = "GPL-3.0+"
 readme = "README.md"
 repository = "https://github.com/PeRDy/apistar-peewee-orm"
 keywords = ["apistar", "peewee", "orm"]
-
-[package]
 include = ["apistar_peewee_orm/**/*.py"]
 
 [tool.poetry.dependencies]

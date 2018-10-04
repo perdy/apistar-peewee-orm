@@ -1,4 +1,7 @@
 # Changes
+v0.3.5 - 2018-10-04
+ * Fixes hang transactions when error raised.
+
 v0.3.4 - 2018-06-28
  * Extra dependencies for database connectors.
 

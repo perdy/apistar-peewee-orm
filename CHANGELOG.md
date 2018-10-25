@@ -1,4 +1,7 @@
 # Changes
+v0.3.6 - 2018-10-25
+ * Avoid open a second transaction on request.
+
 v0.3.5 - 2018-10-04
  * Fixes hang transactions when error raised.
 

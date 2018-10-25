@@ -10,7 +10,6 @@ __all__ = ["PeeweeTransactionHook"]
 
 class PeeweeTransactionHook:
     def on_request(self, database: peewee.Database):
-        database.__enter__()
         database.atomic().__enter__()
 
     def on_response(self, response: http.Response, database: peewee.Database, exc: Exception):

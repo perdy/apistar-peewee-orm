@@ -79,7 +79,7 @@ def drop_tables(*args, **kwargs):
 
 
 class Main(ClinnerMain):
-    def add_arguments(self, parser: "argparse.ArgumentParser"):
+    def add_arguments(self, parser):
         super(Main, self).add_arguments(parser)
         parser.add_argument("app", help="API Star application path (<package>.<module>:<variable>)", nargs="?")
 
